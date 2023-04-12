@@ -1,0 +1,161 @@
+body {
+  overflow: hidden;
+} 
+
+.settings-main {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.side-nav {
+  height: 100vh;
+  max-width: 20%;
+}
+
+.user-profile-container {
+  display: flex;
+  border: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.settings-form h2 {
+  text-align: center;
+  margin: 15px;
+}
+
+.settings-form {
+  width: 60%;
+  height: 95%;
+}
+
+.form-contain {
+  width: 100%;
+  height: fit-content;
+  padding: 15px 0;
+  background-color: var(--profile-posts-bg);
+  border-radius: 7px;
+  border: var(--main-border);
+}
+
+form {
+  width: 100%;
+  margin: 0px;
+  display: inline-grid;
+}
+
+form .settings-form-main {
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.settings-form-main div {
+  display: grid;
+  margin-bottom: 3px;
+}
+
+.main-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  border-radius: 7px;
+}
+
+.main-img {
+  display: flex;
+  justify-content: center;
+}
+
+label {
+  font-size: 20px;
+}
+
+input {
+  height: 30px;
+  width: 100%;
+  background-color: var(--li-hover-active);
+  border: none;
+  border-radius: 7px;
+  /* font-size: 20px; */
+  padding: 3px;
+  color: inherit;
+  font-size: inherit; 
+  font-family: inherit;
+}
+
+form div.profile-top-image {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.main-img img {
+  border-radius: 60px;
+  border: 5px solid var(--li-hover-active);
+}
+
+.change-img {
+  text-align: center;
+}
+
+.change-img button {
+  background-color: var(--li-hover-active);
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 20px;
+  border: none;
+  text-transform: capitalize;
+}
+
+textarea {
+  background-color: var(--li-hover-active);
+  color: inherit;
+  height: 100px;
+  font-size: 20px;
+  padding: 3px;
+}
+
+.btn-space {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-space button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 15px;
+  background-color: var(--li-hover-active);
+  border: none;
+  border-radius: 10px;
+}
+
+@media (max-width: 950px) {
+  .settings-main {
+    flex-direction: column;
+  }
+  .main-centered {
+    padding: 0 5px;
+  }
+  .settings-form h2 {
+    text-align: center;
+    margin: 4px;
+  }
+  .settings-form {
+    width: 99%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  form .settings-form-main {
+    width: 95%;
+    margin-bottom: 10px;
+  }
+  .btn-space button {
+    width: 80%;
+  }
+}

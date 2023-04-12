@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <title>Zimo - {{user_object.username}}</title>
+</head>
+<body>
+
+  <div class="home-page-main">
+    <div class="top-nav">
+      <div class="layout-btn">
+        
+      </div>
+
+      <div class="logo">
+        <h3><a href="#">ZIMO.</a></h3>
+      </div>
+
+      <button type="submit" class="add-note">
+        <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+            <path
+              d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+              fill="currentcolor" fill-rule="evenodd"></path>
+          </svg></span>
+      </button>
+    </div>
+    <div class="side-nav">
+      <div class="side-nav-bar">
+        <div class="logo">
+          <h3><a href="#">ZIMO.</a></h3>
+        </div>
+
+        <ul class="nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="{% url 'lobby' %}">Lobby</a></li>
+          <li><a href="{% url 'settings' user_profile.username %}">Settings</a></li>
+          <li class="active"><a href="{% url 'profile' user_profile.username %}">Profile</a></li>
+        </ul>
+
+        <footer>
+          <div class="user-acc">
+            <div class="profile">
+              <div class="suggestion-left">
+                <div class="img">
+                  <img src="{{profile_main.profile_img.url}}" alt="">
+                </div>
+                <div class="user-acc-info">
+                  <h6>{{profile_main.first_name}} {{profile_main.last_name}}</h6>
+                  <p>@{{user_main.username}}</p>
+                </div>
+              </div>
+              <button class="follow-up">
+               <a href="{% url 'logout' %}">logout</a> 
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div class="user-profile-container">
+      <div class="user-inner">
+        <div class="user-backdrop"></div>
+      
+        <div class="user-img-follow">
+          <div class="user-profile-left">
+            <div class="img">
+              <a href="{{user_profile.profile_img.url}}">
+                <img src="{{user_profile.profile_img.url}}">
+              </a>
+            </div>
+            <div class="upl-user-info">
+              <h4>{{user_object.first_name}} {{user_object.last_name}}</h4>
+              <p>@{{user_object.username}}</p>
+            </div>
+          </div>
+          <div class="user-profile-right">
+            <ul>
+              <li><div class="digit">{{posts_figure}}</div><p>posts</p> </li>
+              <li><div class="digit">{{user_followers}}</div><p>Followers</p> </li>
+              <li><div class="digit">{{user_following}}</div><p>Following</p> </li>
+              
+            </ul>
+            {% if user_object.username == user.username %}
+            <div class="set-follow">
+              <a href="{% url 'settings' user.username %}">
+                <button class="settings-btn main-user">Settings</button>
+              </a>
+              <!-- <a href="#">
+                <button class="settings-btn">
+                  Message
+                </button>
+              </a> -->
+            </div>
+            {% else %}
+            <div class="set-follow">
+              <a href="{% url 'follow' user_object.username %}">
+                <button class="settings-btn">{{btn_txt}}</button>
+              </a>
+              <a href="{% url 'Chat:chat-main' user_object %}">
+                <button class="settings-btn">Message</button>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+    
+        <div class="profile-bio">
+          <textarea name="bio" id="" readonly>{{user_profile.bio}}</textarea>
+        </div>
+    
+        <div class="display-ops">
+          <ul>
+            <li><button class="follow-up postsBtn">Posts</button></li>
+            <li><button class="likesBtn">Likes</button></li>
+            <li><button class="savesBtn">Saves</button></li>
+          </ul>
+        </div>
+        <div class="main-pf-body">
+          <div class="posts">
+            <div class="acc-posts">
+              {% for posts in user_posts reversed %}
+              <div class="post-card">
+                <div class="post-card-top">
+                  <div class="profile">
+                    <div class="img">
+                      <img src="{{user_profile.profile_img.url}}" alt="" >
+                    </div>
+                    <div class="post-info">
+                      <h3>{{user_object.first_name}} {{user_object.last_name}}</h3>
+                      <p>@{{posts.author}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <p class="post-text">
+                    {% if posts.image %}
+                    {{posts.caption}}
+                    <div class="post-img">
+                      <a href="{{posts.image.url}}"><img src="{{posts.image.url}}" alt=""></a>
+                    </div>
+                    {% else %}
+                    {{posts.caption}}
+                    {% endif %}
+                  </p>
+                  <div class="options">
+                    <div class="options-top">
+                      <span>{{posts.time_posted}}</span>
+                    </div>
+                    <div class="options-top"> 
+                      {% if posts.no_of_likes == 1 %}
+                      <li><b>{{posts.no_of_likes}}</b> <span>Like</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_likes}}</b> <span>Likes</span></li>
+                      {% endif %}
+      
+                      {% if posts.no_of_comments == 1 %}
+                      <li><b>{{posts.no_of_comments}}</b> <span>Comment</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_comments}}</b> <span>Comments</span></li>
+                      {% endif %}
+      
+                      {% if posts.no_of_saves == 1 %}
+                      <li><b>{{posts.no_of_saves}}</b> <span>Save</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_saves}}</b> <span>Saves</span></li>
+                      {% endif %}
+                    </div>
+                    <ul>
+                      {% if posts in liked %}
+                      <li>
+                        <a href="{% url 'like-post' posts.id %}">
+                          <button class="like-btn active">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% else %}
+                      <li>
+                        <a href="{% url 'like-post' posts.id %}">
+                          <button class="like-btn">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1ZM24 38q5.05-4.65 8.325-7.975 3.275-3.325 5.2-5.825 1.925-2.5 2.7-4.45.775-1.95.775-3.9 0-3.3-2.1-5.425T33.5 8.3q-2.55 0-4.75 1.575T25.2 14.3h-2.45q-1.3-2.8-3.5-4.4-2.2-1.6-4.75-1.6-3.3 0-5.4 2.125Q7 12.55 7 15.85q0 1.95.775 3.925.775 1.975 2.7 4.5Q12.4 26.8 15.7 30.1 19 33.4 24 38Zm0-14.85Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% endif %}
+
+                      <li>
+                        <a href="{% url 'post-main' posts.id %}">
+                          <button class="comment-btn">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                              <path d="M8.084 3.217a35.447 35.447 0 017.05-.078l.782.078.279.031c1.089.121 1.885.372 2.606.828a4.516 4.516 0 011.664 1.86c.336.69.5 1.423.53 2.361l.005.321v3.975a4.493 4.493 0 01-3.545 4.392l-.207.04-2.089.346-2.86 2.992-.147.135c-.986.789-2.399.623-3.205-.324-.532-.625-.616-1.34-.51-2.29l.029-.224.038-.254.033-.187-1.332-.189a5.011 5.011 0 01-1.677-.55l-.253-.146-.243-.16a4.777 4.777 0 01-1.491-1.721 4.935 4.935 0 01-.532-1.972l-.009-.3V8.618c0-1.096.162-1.915.535-2.683.375-.77.94-1.4 1.664-1.859.649-.41 1.359-.655 2.288-.788l.318-.04.28-.031zm7.666 1.491a33.948 33.948 0 00-6.752-.075l-.748.075-.28.031c-.915.102-1.481.297-1.97.606a3.016 3.016 0 00-1.116 1.247c-.228.468-.357.989-.38 1.76l-.004.266v3.563c0 .577.134 1.116.375 1.587.242.471.592.874 1.024 1.18.37.263.801.453 1.276.554l.242.043 1.98.283c.339.048.457.096.575.175.119.078.262.187.27.386l-.002.024-.013.08-.164.741-.064.333c-.111.63-.167 1.332.09 1.634.263.309.7.39 1.037.187l.089-.062 2.998-3.135.13-.101.092-.063.077-.04.08-.03.035-.01.087-.02L17 15.545a2.993 2.993 0 002.495-2.77l.005-.182V8.618c0-.921-.13-1.506-.384-2.026A3.016 3.016 0 0018 5.345c-.44-.278-.943-.464-1.706-.572l-.265-.034-.279-.03zm-.55 6.294l.093.005c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005c-.398-.044-.707-.36-.707-.745 0-.38.301-.694.691-.744l.109-.007h6.4zm0-3.5l.093.004c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005C8.309 8.953 8 8.637 8 8.252c0-.38.301-.694.691-.744l.109-.007h6.4z" fill="currentcolor" fill-rule="evenodd"></path>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+
+                      {% if posts in saved %}
+                      <li>
+                        <a href="{% url 'save-post' posts.id %}">
+                          <button class="save-btn active">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% else %}
+                      <li>
+                        <a href="{% url 'save-post' posts.id %}">
+                          <button class="save-btn">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Zm3-4.55 11-4.65 11 4.65V8.75H13Zm0-28.7h22-11Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="likes hide">
+            <div class="acc-posts">
+              {% for posts in liked reversed %}
+              <div class="post-card">
+                <div class="post-card-top">
+                  <div class="profile">
+                    <div class="img">
+                      <img src="{{posts.author_img.url}}" alt="" >
+                    </div>
+                    <div class="post-info">
+                      <h3>{{posts.author_first}} {{posts.author_last}}</h3>
+                      <p>@{{posts.author}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <p class="post-text">
+                    {% if posts.image %}
+                    {{posts.caption}}
+                    <div class="post-img">
+                      <a href="{{posts.image.url}}"><img src="{{posts.image.url}}" alt=""></a>
+                    </div>
+                    {% else %}
+                    {{posts.caption}}
+                    {% endif %}
+                  </p>
+                  <div class="options">
+                    <div class="options-top">
+                      <span>{{posts.time_posted}}</span>
+                    </div>
+                    <div class="options-top"> 
+                      {% if posts.no_of_likes == 1 %}
+                      <li><b>{{posts.no_of_likes}}</b> <span>Like</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_likes}}</b> <span>Likes</span></li>
+                      {% endif %}
+      
+                      {% if posts.no_of_comments == 1 %}
+                      <li><b>{{posts.no_of_comments}}</b> <span>Comment</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_comments}}</b> <span>Comments</span></li>
+                      {% endif %}
+      
+                      {% if posts.no_of_saves == 1 %}
+                      <li><b>{{posts.no_of_saves}}</b> <span>Save</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_saves}}</b> <span>Saves</span></li>
+                      {% endif %}
+                    </div>
+                    <ul>
+                      <li>
+                        <a href="{% url 'like-post' posts.id %}">
+                          <button class="like-btn active">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'post-main' posts.id %}">
+                          <button class="comment-btn">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                              <path d="M8.084 3.217a35.447 35.447 0 017.05-.078l.782.078.279.031c1.089.121 1.885.372 2.606.828a4.516 4.516 0 011.664 1.86c.336.69.5 1.423.53 2.361l.005.321v3.975a4.493 4.493 0 01-3.545 4.392l-.207.04-2.089.346-2.86 2.992-.147.135c-.986.789-2.399.623-3.205-.324-.532-.625-.616-1.34-.51-2.29l.029-.224.038-.254.033-.187-1.332-.189a5.011 5.011 0 01-1.677-.55l-.253-.146-.243-.16a4.777 4.777 0 01-1.491-1.721 4.935 4.935 0 01-.532-1.972l-.009-.3V8.618c0-1.096.162-1.915.535-2.683.375-.77.94-1.4 1.664-1.859.649-.41 1.359-.655 2.288-.788l.318-.04.28-.031zm7.666 1.491a33.948 33.948 0 00-6.752-.075l-.748.075-.28.031c-.915.102-1.481.297-1.97.606a3.016 3.016 0 00-1.116 1.247c-.228.468-.357.989-.38 1.76l-.004.266v3.563c0 .577.134 1.116.375 1.587.242.471.592.874 1.024 1.18.37.263.801.453 1.276.554l.242.043 1.98.283c.339.048.457.096.575.175.119.078.262.187.27.386l-.002.024-.013.08-.164.741-.064.333c-.111.63-.167 1.332.09 1.634.263.309.7.39 1.037.187l.089-.062 2.998-3.135.13-.101.092-.063.077-.04.08-.03.035-.01.087-.02L17 15.545a2.993 2.993 0 002.495-2.77l.005-.182V8.618c0-.921-.13-1.506-.384-2.026A3.016 3.016 0 0018 5.345c-.44-.278-.943-.464-1.706-.572l-.265-.034-.279-.03zm-.55 6.294l.093.005c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005c-.398-.044-.707-.36-.707-.745 0-.38.301-.694.691-.744l.109-.007h6.4zm0-3.5l.093.004c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005C8.309 8.953 8 8.637 8 8.252c0-.38.301-.694.691-.744l.109-.007h6.4z" fill="currentcolor" fill-rule="evenodd"></path>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+
+                      {% if posts in saved %}
+                      <li>
+                        <a href="{% url 'save-post' posts.id %}">
+                          <button class="save-btn active">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% else %}
+                      <li>
+                        <a href="{% url 'save-post' posts.id %}">
+                          <button class="save-btn">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Zm3-4.55 11-4.65 11 4.65V8.75H13Zm0-28.7h22-11Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="saves hide">
+            <div class="acc-posts">
+              {% for posts in saved reversed %}
+              <div class="post-card">
+                <div class="post-card-top">
+                  <div class="profile">
+                    <div class="img">
+                      <img src="{{posts.author_img.url}}" alt="" >
+                    </div>
+                    <div class="post-info">
+                      <h3>{{posts.author_first}} {{posts.author_last}}</h3>
+                      <p>@{{posts.author}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <p class="post-text">
+                    {% if posts.image %}
+                    {{posts.caption}}
+                    <div class="post-img">
+                      <a href="{{posts.image.url}}"><img src="{{posts.image.url}}" alt=""></a>
+                    </div>
+                    {% else %}
+                    {{posts.caption}}
+                    {% endif %}
+                  </p>
+                  <div class="options">
+                    <div class="options-top">
+                      <span>{{posts.time_posted}}</span>
+                    </div>
+                    <div class="options-top"> 
+                      {% if posts.no_of_likes == 1 %}
+                      <li><b>{{posts.no_of_likes}}</b> <span>Like</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_likes}}</b> <span>Likes</span></li>
+                      {% endif %}
+      
+                      {% if posts.no_of_comments == 1 %}
+                      <li><b>{{posts.no_of_comments}}</b> <span>Comment</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_comments}}</b> <span>Comments</span></li>
+                      {% endif %}
+      
+                      {% if posts.no_of_saves == 1 %}
+                      <li><b>{{posts.no_of_saves}}</b> <span>Save</span></li>
+                      {% else %}
+                      <li><b>{{posts.no_of_saves}}</b> <span>Saves</span></li>
+                      {% endif %}
+                    </div>
+                    <ul>
+                      {% if posts in liked %}
+                      <li>
+                        <a href="{% url 'like-post' posts.id %}">
+                          <button class="like-btn active">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% else %}
+                      <li>
+                        <a href="{% url 'like-post' posts.id %}">
+                          <button class="like-btn">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1ZM24 38q5.05-4.65 8.325-7.975 3.275-3.325 5.2-5.825 1.925-2.5 2.7-4.45.775-1.95.775-3.9 0-3.3-2.1-5.425T33.5 8.3q-2.55 0-4.75 1.575T25.2 14.3h-2.45q-1.3-2.8-3.5-4.4-2.2-1.6-4.75-1.6-3.3 0-5.4 2.125Q7 12.55 7 15.85q0 1.95.775 3.925.775 1.975 2.7 4.5Q12.4 26.8 15.7 30.1 19 33.4 24 38Zm0-14.85Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      {% endif %}
+
+                      <li>
+                        <a href="{% url 'post-main' posts.id %}">
+                          <button class="comment-btn">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                              <path d="M8.084 3.217a35.447 35.447 0 017.05-.078l.782.078.279.031c1.089.121 1.885.372 2.606.828a4.516 4.516 0 011.664 1.86c.336.69.5 1.423.53 2.361l.005.321v3.975a4.493 4.493 0 01-3.545 4.392l-.207.04-2.089.346-2.86 2.992-.147.135c-.986.789-2.399.623-3.205-.324-.532-.625-.616-1.34-.51-2.29l.029-.224.038-.254.033-.187-1.332-.189a5.011 5.011 0 01-1.677-.55l-.253-.146-.243-.16a4.777 4.777 0 01-1.491-1.721 4.935 4.935 0 01-.532-1.972l-.009-.3V8.618c0-1.096.162-1.915.535-2.683.375-.77.94-1.4 1.664-1.859.649-.41 1.359-.655 2.288-.788l.318-.04.28-.031zm7.666 1.491a33.948 33.948 0 00-6.752-.075l-.748.075-.28.031c-.915.102-1.481.297-1.97.606a3.016 3.016 0 00-1.116 1.247c-.228.468-.357.989-.38 1.76l-.004.266v3.563c0 .577.134 1.116.375 1.587.242.471.592.874 1.024 1.18.37.263.801.453 1.276.554l.242.043 1.98.283c.339.048.457.096.575.175.119.078.262.187.27.386l-.002.024-.013.08-.164.741-.064.333c-.111.63-.167 1.332.09 1.634.263.309.7.39 1.037.187l.089-.062 2.998-3.135.13-.101.092-.063.077-.04.08-.03.035-.01.087-.02L17 15.545a2.993 2.993 0 002.495-2.77l.005-.182V8.618c0-.921-.13-1.506-.384-2.026A3.016 3.016 0 0018 5.345c-.44-.278-.943-.464-1.706-.572l-.265-.034-.279-.03zm-.55 6.294l.093.005c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005c-.398-.044-.707-.36-.707-.745 0-.38.301-.694.691-.744l.109-.007h6.4zm0-3.5l.093.004c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005C8.309 8.953 8 8.637 8 8.252c0-.38.301-.694.691-.744l.109-.007h6.4z" fill="currentcolor" fill-rule="evenodd"></path>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{% url 'save-post' posts.id %}">
+                          <button class="save-btn active">
+                            <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Z"/>
+                            </svg>
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+    <div class="low-nav">
+      <ul>
+        <li>
+          <a href="{% url 'index' %}">
+            <button>
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 42q-1.25 0-2.125-.875T8 39V19.5q0-.7.325-1.35.325-.65.875-1.05l13-9.75q.4-.3.85-.45.45-.15.95-.15.5 0 .95.15.45.15.85.45l13 9.75q.55.4.875 1.05.325.65.325 1.35V39q0 1.25-.875 2.125T37 42h-9V28h-8v14Z"/>
+              </svg>
+              Home
+            </button>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'lobby' %}">
+            <button>
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.6 13.4q0-2.25 1.575-3.825Q10.75 8 13 8h22q2.25 0 3.825 1.575Q40.4 11.15 40.4 13.4v4.15q2.4-.25 4 1.05t1.6 3.75V34.6q0 2.25-1.575 3.825Q42.85 40 40.6 40H7.4q-2.25 0-3.825-1.575Q2 36.85 2 34.6V22.35q0-2.45 1.625-3.75Q5.25 17.3 7.6 17.55Zm3 0V19q.7.7 1.1 1.375.4.675.4 1.975v6.2h23.8v-6.2q0-1.3.4-1.975T37.4 19v-5.6q0-1.05-.675-1.725T35 11H13q-1.05 0-1.725.675T10.6 13.4Zm28.3 18.15H9.1v-9.2q0-.5-.125-.875t-.4-.65q-.275-.275-.65-.4T7.05 20.3q-1 0-1.525.525Q5 21.35 5 22.35V34.6q0 1.05.675 1.725T7.4 37h33.2q1.05 0 1.725-.675T43 34.6V22.35q0-1-.525-1.525-.525-.525-1.525-.525-.5 0-.875.125t-.625.4q-.25.275-.4.65-.15.375-.15.875Zm-14.9 0ZM24 37Zm0-8.45Z"/>
+              </svg>
+              Lobby
+            </button>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <button class="add-btn">
+              <div class="icon-add">
+                <div class="add"></div>
+              </div>
+            </button>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'settings' user_profile.username %}">
+            <button>
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 23.75q-3.3 0-5.4-2.1-2.1-2.1-2.1-5.4 0-3.3 2.1-5.4 2.1-2.1 5.4-2.1 3.3 0 5.4 2.1 2.1 2.1 2.1 5.4 0 3.3-2.1 5.4-2.1 2.1-5.4 2.1ZM5.5 39.8q-.65 0-1.075-.425Q4 38.95 4 38.3v-3.2q0-1.75.875-3.15T7.4 29.8q3.6-1.6 6.675-2.3 3.075-.7 5.925-.7h1.15q-.3.7-.45 1.375-.15.675-.25 1.625H20q-2.9 0-5.675.625T8.6 32.5q-.8.4-1.2 1.125Q7 34.35 7 35.1v1.7h13.45q.25.9.6 1.625t.85 1.375ZM20 20.75q1.95 0 3.225-1.275Q24.5 18.2 24.5 16.25q0-1.95-1.275-3.225Q21.95 11.75 20 11.75q-1.95 0-3.225 1.275Q15.5 14.3 15.5 16.25q0 1.95 1.275 3.225Q18.05 20.75 20 20.75Zm0-4.5Zm.45 20.55Zm14.25-.85q1.65 0 2.825-1.175Q38.7 33.6 38.7 31.95q0-1.65-1.175-2.825Q36.35 27.95 34.7 27.95q-1.65 0-2.825 1.175Q30.7 30.3 30.7 31.95q0 1.65 1.175 2.825Q33.05 35.95 34.7 35.95Zm-1.85 2.75q-.85-.25-1.725-.725-.875-.475-1.475-1.075l-2.2.5q-.25.1-.5 0t-.35-.35l-.65-1.15q-.15-.2-.1-.45.05-.25.25-.45l1.9-1.8q-.1-.45-.1-1.25t.1-1.25l-1.9-1.8q-.2-.2-.25-.45-.05-.25.1-.45l.65-1.15q.1-.25.35-.35.25-.1.5 0l2.2.5q.6-.6 1.475-1.075.875-.475 1.725-.725l.4-2.65q.05-.3.25-.475t.5-.175h1.4q.3 0 .5.175t.25.475l.4 2.65q.85.25 1.725.725.875.475 1.475 1.075l2.2-.5q.25-.1.5 0t.35.35l.65 1.15q.15.2.1.45-.05.25-.25.45l-1.9 1.8q.1.45.1 1.25t-.1 1.25l1.9 1.8q.2.2.25.45.05.25-.1.45l-.65 1.15q-.1.25-.35.35-.25.1-.5 0l-2.2-.5q-.6.6-1.475 1.075-.875.475-1.725.725l-.4 2.65q-.05.3-.25.475t-.5.175H34q-.3 0-.5-.175t-.25-.475Z"/>
+              </svg>
+              Settings
+            </button>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'profile' user_profile.username %}">
+            <button class="active">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.1 35.25q3.15-2 6.225-3.025Q20.4 31.2 24 31.2q3.6 0 6.7 1.025t6.25 3.025q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.2 0-7.85-1.575-3.65-1.575-6.35-4.3Q7.1 35.4 5.55 31.75 4 28.1 4 23.95q0-4.1 1.575-7.75 1.575-3.65 4.3-6.35 2.725-2.7 6.375-4.275Q19.9 4 24.05 4q4.1 0 7.75 1.575 3.65 1.575 6.35 4.275 2.7 2.7 4.275 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.275 6.375t-6.35 4.3Q28.15 44 24 44Z"/>
+              </svg>
+              Profile
+            </button>
+          </a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    
+
+    <div class="users show">
+      <h2 class="headline">Following ({{user_following}})</h2>
+      <div class="suggested">
+      {% for i in list_following %}
+        <div class="profile">
+          <div class="suggestion-left">
+            <div class="img">
+              <a href="{% url 'profile' i.username %}">
+                <img src="{{i.profile_img.url}}" alt="">
+              </a>
+              
+            </div>
+            <div class="user-info">
+              <h3>{{i.first_name}} {{i.last_name}}</h3>
+              <p><a href="{% url 'profile' i.username %}">@{{i.username}}</a></p>
+            </div>
+          </div>
+          <button class="follow-up">
+            Profile
+          </button>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- <div class="back-arrow-btn">
+    <a href="{% url 'index' %}">
+      <button>
+        <div class="arrow-contain">
+          <div class="arrow one"></div>
+          <div class="arrow two"></div>
+        </div>
+      </button>
+    </a>
+  </div> -->
+
+  <script src="{% static 'js/profile.js' %}"></script>
+</body>
+</html>

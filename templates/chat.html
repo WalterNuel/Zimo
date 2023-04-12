@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="{% static 'css/profile.css' %}"> -->
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main-lobby.css' %}">
+  <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+  <title>Zimo - Messages({{receiver}})</title>
+</head>
+
+<body>
+  <div class="home-page-main">
+    <div class="side-nav">
+      <div class="side-nav-bar">
+        <div class="logo">
+          <h3><a href="#">ZIMO.</a></h3>
+        </div>
+
+        <ul class="nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">Messages</a></li>
+          <li class="active"><a href="{% url 'settings' user.username %}">Settings</a></li>
+          <li><a href="{% url 'profile' user.username %}">Profile</a></li>
+        </ul>
+
+        <footer>
+          <div class="user-acc">
+            <div class="profile">
+              <div class="suggestion-left">
+                <div class="img">
+                  <img src="{{user.profile_img.url}}" alt="">
+                </div>
+                <div class="user-acc-info">
+                  <h6>{{user.first_name}} {{user.last_name}}</h6>
+                  <p>@{{user.username}}</p>
+                </div>
+              </div>
+              <button class="follow-up">
+                <a href="{% url 'logout' %}">logout</a>
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div class="feed">
+      <div class="lobby-whole">
+        <div class="lobby-name-container">
+          <div class="top-lobby">
+            <div class="right-top-lobby">
+              <button class="page-back">
+                <svg viewBox="0 0 25 45" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.6 42.6 1.05 25.05q-.25-.25-.35-.5Q.6 24.3.6 24q0-.3.1-.55.1-.25.35-.5L18.6 5.4q.55-.55 1.4-.55.85 0 1.4.55.6.6.6 1.425 0 .825-.6 1.425L5.65 24 21.4 39.75q.6.6.575 1.425-.025.825-.575 1.375-.6.6-1.425.6-.825 0-1.375-.55Z"/>
+                </svg>
+              </button>
+              <div class="img">
+                <img src="{{receiver.profile_img.url}}" alt="">
+              </div>
+              <div class="lobby-name">
+                <h3>{{receiver.first_name}} {{receiver.last_name}}</h3>
+              </div>
+            </div>
+            <button class="info-btn">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.65 34h3V22h-3ZM24 18.3q.7 0 1.175-.45.475-.45.475-1.15t-.475-1.2Q24.7 15 24 15q-.7 0-1.175.5-.475.5-.475 1.2t.475 1.15q.475.45 1.175.45ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 23.95q0-4.1 1.575-7.75 1.575-3.65 4.3-6.35 2.725-2.7 6.375-4.275Q19.9 4 24.05 4q4.1 0 7.75 1.575 3.65 1.575 6.35 4.275 2.7 2.7 4.275 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.275 6.375t-6.35 4.3Q28.15 44 24 44Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="lobby-messages">
+          {% if msg %}
+            {% for msg in msg reversed %}
+            {% if msg.profile == user %}
+              <div class="message-contain right">
+                <div class="message-main">
+                  <p>{{msg.text_body}}</p>
+                  <p class="time">{{msg.time}}</p>
+                </div>
+              </div>
+            {% else %}
+              <div class="message-contain">
+                <!-- <div class="img"> -->
+                  <!-- <img src="{{msg.profile_img.url}}" alt=""> -->
+                <!-- </div> -->
+                <div class="message-main">
+                  <p>{{msg.text_body}}</p>
+                  <div class="main-inner">
+                    <p class="time">{{msg.time}}</p>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="lobby-text-part">
+            <form class="text-form-contained" action="/chat/chat-upload/{{chat.id}}" method="POST">
+              {% csrf_token %}
+              <textarea name="text_body" id="" cols="30" placeholder="Send a Message" rows="10"></textarea>
+              <div class="send-icon">
+                <button type="submit" class="send-btn">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                    <path d="M9.456 4.216l-5.985 7.851c-.456.637-.583 1.402-.371 2.108l.052.155a2.384 2.384 0 002.916 1.443l2.876-.864.578 4.042a2.384 2.384 0 002.36 2.047h.234l.161-.006a2.384 2.384 0 002.2-2.041l.576-4.042 2.877.864a2.384 2.384 0 002.625-3.668L14.63 4.33a3.268 3.268 0 00-5.174-.115zm3.57.613c.16.114.298.253.411.411l5.897 7.736a.884.884 0 01-.973 1.36l-3.563-1.069a.884.884 0 00-1.129.722l-.678 4.75a.884.884 0 01-.875.759h-.234a.884.884 0 01-.875-.76l-.679-4.75a.884.884 0 00-1.128-.72l-3.563 1.068a.884.884 0 01-.973-1.36L10.56 5.24a1.767 1.767 0 012.465-.41z" fill="currentcolor" fill-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="users">
+      <div class="search-part">
+        <button class="info-back">
+          <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.6 42.6 1.05 25.05q-.25-.25-.35-.5Q.6 24.3.6 24q0-.3.1-.55.1-.25.35-.5L18.6 5.4q.55-.55 1.4-.55.85 0 1.4.55.6.6.6 1.425 0 .825-.6 1.425L5.65 24 21.4 39.75q.6.6.575 1.425-.025.825-.575 1.375-.6.6-1.425.6-.825 0-1.375-.55Z"/>
+          </svg>
+        </button>
+        <form action="" class="search-main">
+          <input type='text' name='search-area' placeholder="Search Users
+          " class="search-bar">
+          <!-- <input type="submit" class="add-note" value=""> -->
+          <button type="submit" class="add-note">
+            <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                <path
+                  d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+                  fill="currentcolor" fill-rule="evenodd"></path>
+              </svg></span>
+          </button>
+        </form>
+      </div>
+
+      <div class="lobby-card">
+        <button class="list-btn">
+          <span class="relative px-3" aria-label="Customize">
+              <svg width="1.4em" height="1.4em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5 pointer-events-none">
+                  <path
+                      d="M12 3a3 3 0 012.758 1.817l.067.171.035.106.04-.02a3.004 3.004 0 013.151.29l.169.137.144.135a3.001 3.001 0 01.645 3.284l-.082.18-.023.039.108.036a3.003 3.003 0 011.964 2.446l.019.203L21 12a3 3 0 01-1.817 2.758l-.171.067-.107.035.021.04a3.004 3.004 0 01-.29 3.151l-.137.169-.135.144a3.001 3.001 0 01-3.284.645l-.18-.082-.04-.023-.035.108a3.003 3.003 0 01-2.446 1.964l-.203.019L12 21a3 3 0 01-2.758-1.817l-.067-.172-.036-.106-.039.021a3.004 3.004 0 01-3.151-.29L5.78 18.5l-.144-.135a3.001 3.001 0 01-.645-3.284l.082-.18.022-.04-.107-.035a3.003 3.003 0 01-1.964-2.446l-.019-.203L3 12a3 3 0 011.817-2.758l.172-.067.105-.036-.02-.039a3.004 3.004 0 01.29-3.151L5.5 5.78l.135-.144a3.001 3.001 0 013.284-.645l.18.082.039.022.036-.107a3.003 3.003 0 012.446-1.964l.203-.019L12 3zm0 1.5a1.5 1.5 0 00-1.493 1.356L10.5 6v1.229c-.188.059-.371.129-.55.209l-.262.127-.87-.868a1.5 1.5 0 00-2.224 2.007l.103.114.868.87c-.09.172-.17.35-.24.534l-.096.279L6 10.5a1.5 1.5 0 00-.144 2.993L6 13.5h1.229c.06.188.129.372.209.55l.127.262-.868.87a1.5 1.5 0 001.06 2.56l.144-.006c.287-.028.567-.138.803-.33l.114-.103.87-.868c.172.09.35.17.534.24l.279.096L10.5 18a1.5 1.5 0 001.356 1.493L12 19.5l.144-.007a1.5 1.5 0 001.35-1.349L13.5 18v-1.229c.188-.06.372-.129.55-.209l.262-.127.87.868c.293.293.677.44 1.06.44l.144-.007a1.5 1.5 0 001.02-2.44l-.103-.114-.868-.87c.09-.172.17-.35.24-.533l.096-.279H18l.144-.007a1.5 1.5 0 000-2.986L18 10.5h-1.229a4.964 4.964 0 00-.209-.55l-.127-.262.868-.87a1.5 1.5 0 00-2.007-2.224l-.114.103-.87.868c-.172-.09-.35-.17-.533-.24L13.5 7.23V6A1.5 1.5 0 0012 4.5zM12 9a3 3 0 110 6 3 3 0 010-6zm0 1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
+                      fill="currentcolor" fill-rule="evenodd">
+                  </path>
+              </svg>
+          </span>
+          Settings
+        </button>
+        <div class="lobby-img">
+          <div class="receiver img">
+            <img src="{{receiver.profile_img.url}}" alt="">
+          </div>
+        </div>
+        <div class="lobby-info">
+          <h3>{{receiver.username}}</h3>
+          <p>{{receiver.bio}}</p>
+        </div>
+        <div class="lobby-buttons">
+          <ul>
+            <li>
+              <a href="{% url 'profile' receiver.username %}">
+                <button>
+                  <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.1 35.25q3.15-2.2 6.25-3.375Q20.45 30.7 24 30.7q3.55 0 6.675 1.175t6.275 3.375q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 24q0-4.15 1.575-7.775t4.3-6.35q2.725-2.725 6.375-4.3Q19.9 4 24 4q4.15 0 7.775 1.575t6.35 4.3q2.725 2.725 4.3 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.3 6.375-2.725 2.725-6.35 4.3Q28.15 44 24 44Zm0-3q2.75 0 5.375-.8t5.175-2.8q-2.55-1.8-5.2-2.75-2.65-.95-5.35-.95-2.7 0-5.35.95-2.65.95-5.2 2.75 2.55 2 5.175 2.8Q21.25 41 24 41Zm0-18.5q1.7 0 2.775-1.075t1.075-2.775q0-1.7-1.075-2.775T24 14.8q-1.7 0-2.775 1.075T20.15 18.65q0 1.7 1.075 2.775T24 22.5Zm0-3.85Zm0 18.7Z"/>
+                  </svg>
+                  Profile
+                </button>
+              </a>
+            </li>
+            <!-- <li>
+              <a href="{% url 'profile' receiver.username %}">
+                <button>
+                  <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.1 35.25q3.15-2.2 6.25-3.375Q20.45 30.7 24 30.7q3.55 0 6.675 1.175t6.275 3.375q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 24q0-4.15 1.575-7.775t4.3-6.35q2.725-2.725 6.375-4.3Q19.9 4 24 4q4.15 0 7.775 1.575t6.35 4.3q2.725 2.725 4.3 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.3 6.375-2.725 2.725-6.35 4.3Q28.15 44 24 44Zm0-3q2.75 0 5.375-.8t5.175-2.8q-2.55-1.8-5.2-2.75-2.65-.95-5.35-.95-2.7 0-5.35.95-2.65.95-5.2 2.75 2.55 2 5.175 2.8Q21.25 41 24 41Zm0-18.5q1.7 0 2.775-1.075t1.075-2.775q0-1.7-1.075-2.775T24 14.8q-1.7 0-2.775 1.075T20.15 18.65q0 1.7 1.075 2.775T24 22.5Zm0-3.85Zm0 18.7Z"/>
+                  </svg>
+                  Profile
+                </button>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'profile' receiver.username %}">
+                <button>
+                  <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.1 35.25q3.15-2.2 6.25-3.375Q20.45 30.7 24 30.7q3.55 0 6.675 1.175t6.275 3.375q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 24q0-4.15 1.575-7.775t4.3-6.35q2.725-2.725 6.375-4.3Q19.9 4 24 4q4.15 0 7.775 1.575t6.35 4.3q2.725 2.725 4.3 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.3 6.375-2.725 2.725-6.35 4.3Q28.15 44 24 44Zm0-3q2.75 0 5.375-.8t5.175-2.8q-2.55-1.8-5.2-2.75-2.65-.95-5.35-.95-2.7 0-5.35.95-2.65.95-5.2 2.75 2.55 2 5.175 2.8Q21.25 41 24 41Zm0-18.5q1.7 0 2.775-1.075t1.075-2.775q0-1.7-1.075-2.775T24 14.8q-1.7 0-2.775 1.075T20.15 18.65q0 1.7 1.075 2.775T24 22.5Zm0-3.85Zm0 18.7Z"/>
+                  </svg>
+                  Profile
+                </button>
+              </a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+
+      <p class="headline">Lobbies In Common ({{no_of_lobbies}})</p>
+      <div class="lobby-card list">
+        {% if lobbies %}
+          {% for i in lobbies %}
+            <div class="lobby-line">
+              <div class="img">
+                <img src="{{i.img.url}}" alt="">
+              </div>
+              <div class="lobby-line-name">
+                <h3>{{i.name}}</h3>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+ECHO is on.
+# Ignore directories named 'zimo'
+zimo/
+
+# Ignore database
+db.sqlite3

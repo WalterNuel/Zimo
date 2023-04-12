@@ -1,0 +1,311 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/post.css' %}">
+  <title>Zimo - Home</title>
+</head>
+<body>
+  <div class="home-page-main">
+    <div class="side-nav">
+      <div class="side-nav-bar">
+        <div class="logo">
+          <h3><a href="#">ZIMO.</a></h3>
+        </div>
+
+        <ul class="nav">
+          <li class="active"><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="{% url 'lobby' %}">Lobby</a></li>
+          <li><a href="{% url 'settings' user_profile.username %}">Settings</a></li>
+          <li><a href="{% url 'profile' user_profile.username %}">Profile</a></li>
+        </ul>
+
+        <footer>
+          <div class="user-acc">
+            <div class="profile">
+              <div class="suggestion-left">
+              <div class="img"><img src="{{user_profile.profile_img.url}}" alt=""  style="width: 100%; height: 100%; border-radius: 7px;"></div>
+                <div class="user-acc-info">
+                  <h6>{{user_profile.first_name}} {{user_profile.last_name}}</h6>
+                  <p>@{{user_object.username}}</p>
+                </div>
+              </div>
+              <button class="follow-up">
+               <a href="{% url 'logout' %}">logout</a> 
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      <!-- <footer>
+        <div class="user-acc">
+          <div class="profile">
+            <div class="suggestion-left">
+            <div class="img"><img src="{{user_profile.profile_img.url}}" alt=""  style="width: 100%; height: 100%; border-radius: 7px;"></div>
+              <div class="user-acc-info">
+                <h6>{{user_profile.first_name}} {{user_profile.last_name}}</h6>
+                <p>@{{user_object.username}}</p>
+              </div>
+            </div>
+            <button class="follow-up">
+              logout
+            </button>
+          </div>
+        </div>
+      </footer> -->
+    </div>
+
+    <div class="feed">
+      <!-- <div class="profile">
+        <div class="post-info">
+          <p><b>@{{post.author}}</b>'s Post</p>
+        </div>
+      </div> -->
+
+      <div class="slide-in-btn">
+        <div class="arrow one"></div>
+        <div class="arrow two"></div>
+      </div>
+
+        <div class="post-card">
+          <div class="post-card-top">
+            <div class="profile">
+              <div class="img">
+                <a href="{% url 'profile' post.author %}">
+                  <img src="{{post.author_img.url}}" alt="">
+                </a>
+              </div>
+              <div class="post-info">
+                <h3>{{post.author_first}} {{post.author_last}}</span></h3>
+                <p>@{{post.author}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="post-body">
+            <p class="post-text">
+              {% if post.image %}
+              {{post.caption}}
+              <div class="post-img">
+                <a href="{{post.image.url}}">
+                  <img src="{{post.image.url}}" alt="">
+                </a>
+              </div>
+              {% else %}
+              {{post.caption}}
+              {% endif %} 
+            </p>
+            <!-- {% for post in liked_post %}
+            
+            
+            Not liked by anyone 
+            {% endfor %} -->
+              
+
+            
+            <div class="options">
+              <div class="options-top">
+                <span>{{post.time_posted}}</span>
+              </div>
+              <div class="options-top">
+                <li><b>{{post.no_of_likes}}</b> <span>Likes</span></li>
+                <li><b>{{post.no_of_comments}}</b> <span>Comments</span></li>
+                <li><b>0</b> <span>Saves</span></li>
+              </div>
+              <ul>
+                {% if post in liked %}
+                <li>
+                  <a href="{% url 'like-post' post.id %}">
+                    <button class="like-btn active">
+                      <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1Z"/>
+                      </svg>
+                    </button>
+                  </a>
+                </li>
+                {% else %}
+                <li>
+                  <a href="{% url 'like-post' post.id %}">
+                    <button class="like-btn">
+                      <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1ZM24 38q5.05-4.65 8.325-7.975 3.275-3.325 5.2-5.825 1.925-2.5 2.7-4.45.775-1.95.775-3.9 0-3.3-2.1-5.425T33.5 8.3q-2.55 0-4.75 1.575T25.2 14.3h-2.45q-1.3-2.8-3.5-4.4-2.2-1.6-4.75-1.6-3.3 0-5.4 2.125Q7 12.55 7 15.85q0 1.95.775 3.925.775 1.975 2.7 4.5Q12.4 26.8 15.7 30.1 19 33.4 24 38Zm0-14.85Z"/>
+                      </svg>
+                    </button>
+                  </a>
+                </li>
+                {% endif %}
+                <li>
+                  <a href="{% url 'post-main' post.id %}">
+                    <button class="comment-btn">
+                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                        <path d="M8.084 3.217a35.447 35.447 0 017.05-.078l.782.078.279.031c1.089.121 1.885.372 2.606.828a4.516 4.516 0 011.664 1.86c.336.69.5 1.423.53 2.361l.005.321v3.975a4.493 4.493 0 01-3.545 4.392l-.207.04-2.089.346-2.86 2.992-.147.135c-.986.789-2.399.623-3.205-.324-.532-.625-.616-1.34-.51-2.29l.029-.224.038-.254.033-.187-1.332-.189a5.011 5.011 0 01-1.677-.55l-.253-.146-.243-.16a4.777 4.777 0 01-1.491-1.721 4.935 4.935 0 01-.532-1.972l-.009-.3V8.618c0-1.096.162-1.915.535-2.683.375-.77.94-1.4 1.664-1.859.649-.41 1.359-.655 2.288-.788l.318-.04.28-.031zm7.666 1.491a33.948 33.948 0 00-6.752-.075l-.748.075-.28.031c-.915.102-1.481.297-1.97.606a3.016 3.016 0 00-1.116 1.247c-.228.468-.357.989-.38 1.76l-.004.266v3.563c0 .577.134 1.116.375 1.587.242.471.592.874 1.024 1.18.37.263.801.453 1.276.554l.242.043 1.98.283c.339.048.457.096.575.175.119.078.262.187.27.386l-.002.024-.013.08-.164.741-.064.333c-.111.63-.167 1.332.09 1.634.263.309.7.39 1.037.187l.089-.062 2.998-3.135.13-.101.092-.063.077-.04.08-.03.035-.01.087-.02L17 15.545a2.993 2.993 0 002.495-2.77l.005-.182V8.618c0-.921-.13-1.506-.384-2.026A3.016 3.016 0 0018 5.345c-.44-.278-.943-.464-1.706-.572l-.265-.034-.279-.03zm-.55 6.294l.093.005c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005c-.398-.044-.707-.36-.707-.745 0-.38.301-.694.691-.744l.109-.007h6.4zm0-3.5l.093.004c.398.044.707.36.707.746 0 .38-.301.693-.691.743l-.109.007H8.8l-.093-.005C8.309 8.953 8 8.637 8 8.252c0-.38.301-.694.691-.744l.109-.007h6.4z" fill="currentcolor" fill-rule="evenodd"></path>
+                      </svg>
+                    </button>
+                  </a>
+                </li>
+                {% if post in saved %}
+                <li>
+                  <a href="{% url 'save-post' post.id %}">
+                    <button class="save-btn active">
+                      <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Z"/>
+                      </svg>
+                    </button>
+                  </a>
+                </li>
+                {% else %}
+                <li>
+                  <a href="{% url 'save-post' post.id %}">
+                    <button class="save-btn">
+                      <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Zm3-4.55 11-4.65 11 4.65V8.75H13Zm0-28.7h22-11Z"/>
+                      </svg>
+                    </button>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="comment-section">
+          {% if amount == 1 %}
+          <h4>Comment {{amount}}</h4>
+          {% else %}
+          <h4>Comments {{amount}}</h4>
+          {% endif %}
+          {% for word in comments %}
+          {% if word.author == post.author %}
+          <div class="comment">
+            <div class="comment-card">
+              <div class="comment-top">
+                <div class="author-img">
+                  <a href="{% url 'profile' word.author %}">
+                    <img src="{{word.author_img.url}}" alt="{{word.author}} profile photo">
+                  </a>
+                </div>
+                <div class="namespace">
+                  <p><b><a href="{% url 'profile' word.author %}">@{{word.author}} <span class="author">A</span></a></b> <span>{{word.time}}</span></p>
+                </div>
+              </div>
+              <div class="comment-content">
+                <p>{{word.comment_body}}</p>
+                <span class="comment-footer">
+                  <p><a href="#">Like</a></p>
+                  <p><a href="#">Reply</a></p>
+                </span>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="comment">
+            <div class="comment-card">
+              <div class="comment-top">
+                <div class="author-img">
+                  <a href="{% url 'profile' word.author %}">
+                    <img src="{{word.author_img.url}}" alt="{{word.author}} profile photo">
+                  </a>
+                </div>
+                <div class="namespace">
+                  <p><b><a href="{% url 'profile' word.author %}">@{{word.author}}</a></b> <span>{{word.time}}</span></p>
+                </div>
+              </div>
+              <div class="comment-content">
+                <p>{{word.comment_body}}</p>
+                <span class="comment-footer">
+                  <p><a href="#">Like</a></p>
+                  <p><a href="#">Reply</a></p>
+                </span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+
+        {% for message in messages %}
+        <div class="message">
+          <h5 style="color: white;">{{message}}</h5>
+        </div>
+        {% endfor %}
+
+      <div class="post-input">
+        <div class="input-outer">
+          <form action="{% url 'comment-upload' post.id %}" method="POST" enctype="multipart/form-data" class="input-inner">
+            {% csrf_token %}
+            <textarea name="comment" id="" cols="30" placeholder='Make a Comment' rows="10"></textarea>
+            <button type="submit" class="submit">
+              <div class="top-arrow">
+                <div class="arrow one"></div>
+                <div class="arrow two"></div>
+              </div>
+            </button>
+          </form>
+        </div> 
+      </div>
+    </div>
+
+    <div class="users">
+      <div class="search-part">
+        <form action="" method="GET" class="search-main">
+          <input type='text' name='search-area' placeholder="Search Users
+          " class="search-bar">
+          <!-- <input type="submit" class="add-note" value=""> -->
+          <button type="submit" class="add-note">
+            <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                <path
+                  d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+                  fill="currentcolor" fill-rule="evenodd"></path>
+              </svg></span>
+          </button>
+        </form>
+      </div>
+
+      {% if search %}
+      <h2 class="headline">{{header}} '{{search}}'</h2>
+      {% else %}
+      <h2 class="headline">{{header}}</h2>
+      {% endif %}
+        {% for i in suggest %}
+          {% if i == user_profile %}
+            <div class="nothing"></div>
+          {% else %}
+            <div class="suggested">
+              <div class="profile">
+                <div class="suggestion-left">
+                  <div class="img">
+                    <a href="{% url 'profile' i.username %}">
+                      <img src="{{i.profile_img.url}}" alt="" style="width: 100%; height: 100%; border-radius: 7px;">
+                    </a>
+                    
+                  </div>
+                  <div class="user-info">
+                    <h3>{{i.first_name}} {{i.last_name}}</h3>
+                    <p><a href="{% url 'profile' i.username %}">@{{i.username}}</a></p>
+                  </div>
+                </div>
+                <button class="follow-up">
+                  {{btn_txt}}
+                </button>
+              </div>
+            </div>
+          {% endif %}
+          
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/popup.js' %}"></script>
+</body>
+</html>

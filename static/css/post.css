@@ -1,0 +1,66 @@
+
+
+.post-card {
+  margin: 5px 0 0px;
+}
+
+.comment {
+  margin-bottom: 10px;
+}
+
+.comment p a {
+  margin: 0 5px 0 0;
+}
+
+.comment-section {
+  margin: 0 0 5rem;
+  padding: 0 10px;
+}
+
+.comment-section h4 {
+  margin: 10px 0;
+}
+
+
+
+.author {
+  width: 30px;
+  height: 30px;
+  padding: 2px 5px;
+  /* margin: 0 10px 0 0; */
+  border-radius: 30px;
+  background-color: var(--li-hover-active);
+  color: var(--logo-color);
+}
+
+.comment-path {
+  display: flex;
+}
+
+.comment-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.comment-content {
+  width: 80%;
+  transform: translateX(2.5rem);
+}
+
+.comment-footer {
+  display: flex;
+  margin-top: 8px;
+}
+
+.author-img {
+  width: 2rem;
+  height: 2rem;
+  margin: 5px;
+}
+
+.author-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+}

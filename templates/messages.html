@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+  <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+  <title>Zimo - Messages</title>
+</head>
+
+<body>
+  <div class="home-page-main">
+    <div class="side-nav">
+      <div class="side-nav-bar">
+        <div class="logo">
+          <h3><a href="#">ZIMO.</a></h3>
+        </div>
+
+        <ul class="nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">Messages</a></li>
+          <li class="active"><a href="{% url 'settings' user_profile.username %}">Settings</a></li>
+          <li><a href="{% url 'profile' user_profile.username %}">Profile</a></li>
+        </ul>
+
+        <footer>
+          <div class="user-acc">
+            <div class="profile">
+              <div class="suggestion-left">
+                <div class="img"><img src="{{user_profile.profile_img.url}}" alt=""
+                    style="width: 100%; height: 100%; border-radius: 7px;"></div>
+                <div class="user-acc-info">
+                  <h6>{{user_profile.first_name}} {{user_profile.last_name}}</h6>
+                  <p>@{{user_profile.username}}</p>
+                </div>
+              </div>
+              <button class="follow-up">
+                <a href="{% url 'logout' %}">logout</a>
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div class="feed">
+      <h3>Start a chat with an account</h3>
+    </div>
+
+    <div class="users show">
+      <div class="search-part">
+        <form action="" class="search-main">
+          <input type='text' name='search-area' placeholder="Search Users
+          " class="search-bar">
+          <!-- <input type="submit" class="add-note" value=""> -->
+          <button type="submit" class="add-note">
+            <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                <path
+                  d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+                  fill="currentcolor" fill-rule="evenodd"></path>
+              </svg></span>
+          </button>
+        </form>
+      </div>
+
+      <h2 class="headline">Suggested</h2>
+      {% for user in suggest %}
+      {% if user.username == request.user.username %}
+      <div class="nothing"></div>
+      {% else %}
+      <div class="suggested">
+        <div class="profile">
+          <div class="suggestion-left">
+            <div class="img">
+              <a href="{% url 'chat' user.username %}">
+                <img src="{{user.profile_img.url}}" alt="" style="width: 100%; height: 100%; border-radius: 7px;">
+              </a> 
+            </div>
+            <div class="user-info">
+              <h3>{{user.first_name}} {{user.last_name}}</h3>
+              <p><a href="{% url 'profile' user.username %}">@{{user.username}}</a></p>
+            </div>
+          </div>
+          <button class="follow-up">
+            Follow
+          </button>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</body>
+
+</html>

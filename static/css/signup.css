@@ -1,0 +1,82 @@
+body {
+  background-color: white;
+  background: url('29291.jpg');
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-main {
+  height: 100%;
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+  font-size: 2.7rem;
+  height: 30%;
+  padding: 5px;
+  /* margin: 30px; */
+  font-family: "Junegull";
+  color: var(--logo-color);
+  text-align: left;
+}
+
+.logo h3 {
+  text-align: center;
+  font-size: larger;
+}
+
+.signup-form {
+  background-color: var(--main-bg-color);
+  padding: 10px;
+  border-radius: 7px;
+  width: 100%;
+  height: 30%;
+}
+
+form {
+  width: 100%;
+  display: inline-grid;
+  justify-content: center;
+}
+
+form input {
+  margin-bottom: 10px;
+  height: 2rem;
+  padding: 5px;
+  font-size: 1.4rem;
+  border-radius: 7px;
+  border: var(--main-border);
+}
+
+form button {
+  height: 3rem;
+  padding: 5px;
+  margin-top: 30px;
+  font-size: 1.4rem;
+  border-radius: 7px;
+  border: 0;
+  background-color: white;
+  transition: .6s;
+}
+
+form button:hover {
+  transform: translate(3);
+}
+
+.signin-link {
+  color: white;
+  height: 25%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.signin-link a {
+  color: white;
+  text-decoration: underline;
+}

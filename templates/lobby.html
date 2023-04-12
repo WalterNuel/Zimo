@@ -1,0 +1,278 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/lobby.css' %}">
+  <title>Zimo - Home</title>
+</head>
+<body>
+  <div class="home-page-main">
+    <div class="top-nav">
+      <div class="layout-btn">
+        
+      </div>
+
+      <div class="logo">
+        <h3><a href="#">ZIMO.</a></h3>
+      </div>
+
+      <button type="submit" class="add-note">
+        <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+            <path
+              d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+              fill="currentcolor" fill-rule="evenodd"></path>
+          </svg></span>
+      </button>
+    </div>
+    <div class="side-nav">
+      <div class="side-nav-bar">
+        <div class="logo">
+          <h3><a href="#">ZIMO.</a></h3>
+        </div>
+
+        <ul class="nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li class="active"><a href="{% url 'lobby' %}">Lobby</a></li>
+          <li><a href="{% url 'settings' user_profile.username %}">Settings</a></li>
+          <li><a href="{% url 'profile' user_profile.username %}">Profile</a></li>
+        </ul>
+
+        <footer>
+          <div class="user-acc">
+            <div class="profile">
+              <div class="suggestion-left">
+                <div class="img">
+                  <img src="{{user_profile.profile_img.url}}" alt="">
+                </div>
+                <div class="user-acc-info">
+                  <h6>{{user_profile.first_name}} {{user_profile.last_name}}</h6>
+                  <p>@{{user_object.username}}</p>
+                </div>
+              </div>
+              <button class="follow-up">
+               <a href="{% url 'logout' %}">logout</a> 
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <div class="body">
+      <div class="feed">
+        <div class="search-part">
+          <form action="" method="GET" class="search-main">
+            <input type='text' name='search-area' placeholder="Search Lobbies
+            " class="search-bar">
+            <!-- <input type="submit" class="add-note" value=""> -->
+            <button type="submit" class="add-note">
+              <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                  <path
+                    d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+                    fill="currentcolor" fill-rule="evenodd"></path>
+                </svg></span>
+            </button>
+          </form>
+        </div>
+      
+        <div class="lobby-section">
+          <div class="top-lobby-page">
+            <h2 class="headline">My Lobbies (3)</h2>
+            <div class="add"></div>
+          </div>
+          <div class="lobby-contained">
+          {% for i in my_lobbies %}
+            <div class="lobby-card">
+              <div class="img-content">
+                  <img src="{{i.img.url}}" alt="">
+              </div>
+              <div class="name-img">
+                  <h3>{{i.name}}</h3>
+                  <p>{{i.about}}</p>
+              </div>
+              <div class="join">
+                <a href="{% url 'lobby-message' i.id %}">
+                  <button class="lobby-btn">Enter</button>
+                </a>
+              </div>
+            </div>
+            
+          {% endfor %}
+          </div>
+    
+          <div class="top-lobby-page two">
+            <h2 class="headline">Others</h2>
+          </div>
+          <div class="lobby-contained lobbies">
+            {% for i in all_lobbies %}
+            <div class="lobby-card">
+              <div class="img-content">
+                <img src="{{i.img.url}}" alt="">
+              </div>
+              <div class="name-img">
+                  <h3>{{i.name}}</h3>
+                  <p>{{i.about}}</p>
+              </div>
+              <div class="join">
+                <a href="{% url 'lobby-message' i.id %}">
+                  <button class="lobby-btn">Enter</button>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="low-nav">
+        <ul>
+          <li>
+            <a href="{% url 'index' %}">
+              <button>
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 42q-1.25 0-2.125-.875T8 39V19.5q0-.7.325-1.35.325-.65.875-1.05l13-9.75q.4-.3.85-.45.45-.15.95-.15.5 0 .95.15.45.15.85.45l13 9.75q.55.4.875 1.05.325.65.325 1.35V39q0 1.25-.875 2.125T37 42h-9V28h-8v14Z"/>
+                </svg>
+                Home
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'lobby' %}">
+              <button class="active">
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.2 40Q5 40 3.5 38.425T2 34.6v-12q0-1.55 1.025-2.675Q4.05 18.8 5.55 18.8t2.525 1.125Q9.1 21.05 9.1 22.6v8.95h29.8V22.6q0-1.55 1.025-2.675Q40.95 18.8 42.45 18.8t2.525 1.125Q46 21.05 46 22.6v12q0 2.25-1.475 3.825Q43.05 40 40.85 40Zm4.9-11.45V22.6q0-2.15-1.25-3.9T7.6 16.05v-2.6q0-2.25 1.5-3.85T12.8 8h22.45q2.2 0 3.675 1.6 1.475 1.6 1.475 3.85v2.6q-2.05.8-3.275 2.575Q35.9 20.4 35.9 22.6v5.95Z"/>
+                </svg>
+                Lobby
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <button class="add-btn">
+                <div class="icon-add">
+                  <div class="add"></div>
+                </div>
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'settings' user_profile.username %}">
+              <button>
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 23.75q-3.3 0-5.4-2.1-2.1-2.1-2.1-5.4 0-3.3 2.1-5.4 2.1-2.1 5.4-2.1 3.3 0 5.4 2.1 2.1 2.1 2.1 5.4 0 3.3-2.1 5.4-2.1 2.1-5.4 2.1ZM5.5 39.8q-.65 0-1.075-.425Q4 38.95 4 38.3v-3.2q0-1.75.875-3.15T7.4 29.8q3.6-1.6 6.675-2.3 3.075-.7 5.925-.7h1.15q-.3.7-.45 1.375-.15.675-.25 1.625H20q-2.9 0-5.675.625T8.6 32.5q-.8.4-1.2 1.125Q7 34.35 7 35.1v1.7h13.45q.25.9.6 1.625t.85 1.375ZM20 20.75q1.95 0 3.225-1.275Q24.5 18.2 24.5 16.25q0-1.95-1.275-3.225Q21.95 11.75 20 11.75q-1.95 0-3.225 1.275Q15.5 14.3 15.5 16.25q0 1.95 1.275 3.225Q18.05 20.75 20 20.75Zm0-4.5Zm.45 20.55Zm14.25-.85q1.65 0 2.825-1.175Q38.7 33.6 38.7 31.95q0-1.65-1.175-2.825Q36.35 27.95 34.7 27.95q-1.65 0-2.825 1.175Q30.7 30.3 30.7 31.95q0 1.65 1.175 2.825Q33.05 35.95 34.7 35.95Zm-1.85 2.75q-.85-.25-1.725-.725-.875-.475-1.475-1.075l-2.2.5q-.25.1-.5 0t-.35-.35l-.65-1.15q-.15-.2-.1-.45.05-.25.25-.45l1.9-1.8q-.1-.45-.1-1.25t.1-1.25l-1.9-1.8q-.2-.2-.25-.45-.05-.25.1-.45l.65-1.15q.1-.25.35-.35.25-.1.5 0l2.2.5q.6-.6 1.475-1.075.875-.475 1.725-.725l.4-2.65q.05-.3.25-.475t.5-.175h1.4q.3 0 .5.175t.25.475l.4 2.65q.85.25 1.725.725.875.475 1.475 1.075l2.2-.5q.25-.1.5 0t.35.35l.65 1.15q.15.2.1.45-.05.25-.25.45l-1.9 1.8q.1.45.1 1.25t-.1 1.25l1.9 1.8q.2.2.25.45.05.25-.1.45l-.65 1.15q-.1.25-.35.35-.25.1-.5 0l-2.2-.5q-.6.6-1.475 1.075-.875.475-1.725.725l-.4 2.65q-.05.3-.25.475t-.5.175H34q-.3 0-.5-.175t-.25-.475Z"/>
+                </svg>
+                Settings
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'profile' user_profile.username %}">
+              <button>
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.1 35.25q3.15-2.2 6.25-3.375Q20.45 30.7 24 30.7q3.55 0 6.675 1.175t6.275 3.375q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.1 0-7.75-1.575-3.65-1.575-6.375-4.3-2.725-2.725-4.3-6.375Q4 28.1 4 24q0-4.15 1.575-7.775t4.3-6.35q2.725-2.725 6.375-4.3Q19.9 4 24 4q4.15 0 7.775 1.575t6.35 4.3q2.725 2.725 4.3 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.3 6.375-2.725 2.725-6.35 4.3Q28.15 44 24 44Zm0-3q2.75 0 5.375-.8t5.175-2.8q-2.55-1.8-5.2-2.75-2.65-.95-5.35-.95-2.7 0-5.35.95-2.65.95-5.2 2.75 2.55 2 5.175 2.8Q21.25 41 24 41Zm0-18.5q1.7 0 2.775-1.075t1.075-2.775q0-1.7-1.075-2.775T24 14.8q-1.7 0-2.775 1.075T20.15 18.65q0 1.7 1.075 2.775T24 22.5Zm0-3.85Zm0 18.7Z"/>
+                </svg>
+                Profile
+              </button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="users show">
+      <div class="users-main">
+        <div class="search-part">
+          <form action="" method="GET" class="search-main">
+            <input type='text' name='search-area' placeholder="Search Users
+            " class="search-bar">
+            <!-- <input type="submit" class="add-note" value=""> -->
+            <button type="submit" class="add-note">
+              <span class="relative px-3" aria-label="Search"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 pointer-events-none">
+                  <path
+                    d="M15.394 15.394a2.052 2.052 0 012.763-.126l.138.126 2.127 2.128.128.144a2.052 2.052 0 01-1.123 3.278l-.192.038-.208.018h-.181a2.045 2.045 0 01-1.205-.47l-.141-.129-2.127-2.128-.128-.144a2.052 2.052 0 01.025-2.6l.124-.135zM9.75 3a6.75 6.75 0 01.511 13.482l-.251.014-.271.005-.26-.005A6.75 6.75 0 019.75 3z"
+                    fill="currentcolor" fill-rule="evenodd"></path>
+                </svg></span>
+            </button>
+          </form>
+        </div>
+        <div class="user-list"> 
+          {% if search %}
+          <h2 class="headline">{{header}} '{{search}}'</h2>
+          {% else %}
+          <h2 class="headline">{{header}}</h2>
+          {% endif %}
+            <div class="suggested">
+          {% for i in suggest %}
+          {% if i == user_object %}
+              <div class="profile">
+                <div class="suggestion-left">
+                  <div class="img">
+                    <a href="{% url 'profile' i.username %}">
+                      <img src="{{i.profile_img.url}}" alt="">
+                    </a>
+                    
+                  </div>
+                  <div class="user-info">
+                    <h3>{{i.first_name}} {{i.last_name}}</h3>
+                    <p><a href="{% url 'profile' i.username %}">@{{i.username}}</a></p>
+                  </div>
+                </div>
+                <button class="follow-up">
+                  Profile
+                </button>
+              </div>
+          {% elif i in following %}
+              <div class="profile">
+                <div class="suggestion-left">
+                  <div class="img">
+                    <a href="{% url 'profile' i.username %}">
+                      <img src="{{i.profile_img.url}}" alt="">
+                    </a>
+                    
+                  </div>
+                  <div class="user-info">
+                    <h3>{{i.first_name}} {{i.last_name}}</h3>
+                    <p><a href="{% url 'profile' i.username %}">@{{i.username}}</a></p>
+                  </div>
+                </div>
+                <button class="follow-up">
+                  Unfollow
+                </button>
+              </div>
+          {% else %}
+              <div class="profile">
+                <div class="suggestion-left">
+                  <div class="img">
+                    <a href="{% url 'profile' i.username %}">
+                      <img src="{{i.profile_img.url}}" alt="">
+                    </a>
+                    
+                  </div>
+                  <div class="user-info">
+                    <h3>{{i.first_name}} {{i.last_name}}</h3>
+                    <p><a href="{% url 'profile' i.username %}">@{{i.username}}</a></p>
+                  </div>
+                </div>
+                <button class="follow-up">
+                  {{btn_txt}}
+                </button>
+              </div>
+          {% endif %}
+          {% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/popup.js' %}"></script>
+</body>
+</html>

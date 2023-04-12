@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+  <title>Zimo - {{user_object.username}}</title>
+</head>
+
+<body>
+  <div class="settings-main">
+    <div class="side-nav">
+      <div class="side-nav-bar">
+        <div class="logo">
+          <h3><a href="#">ZIMO.</a></h3>
+        </div>
+
+        <ul class="nav">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="{% url 'lobby' %}">Lobby</a></li>
+          <li class="active"><a href="{% url 'settings' user_profile.username %}">Settings</a></li>
+          <li><a href="{% url 'profile' user_profile.username %}">Profile</a></li>
+        </ul>
+
+        <footer>
+          <div class="user-acc">
+            <div class="profile">
+              <div class="suggestion-left">
+                <div class="img"><img src="{{user_profile.profile_img.url}}" alt=""></div>
+                <div class="user-acc-info">
+                  <h6>{{user_profile.first_name}} {{user_profile.last_name}}</h6>
+                  <p>@{{user_profile.username}}</p>
+                </div>
+              </div>
+              <button class="follow-up">
+                <a href="{% url 'logout' %}">logout</a>
+              </button>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div class="user-profile-container">
+      <div class="settings-form">
+        <h2>Edit Info</h2>
+        <div class="form-contain">
+
+          <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="main-centered">
+              <div class="settings-form-main">
+                <div class="profile-top-image">
+                  <div class="change-img">
+                    <div class="main-img">
+                      <img width="100" height="100" src="{{user_profile.profile_img.url}}"  alt="">
+                    </div>
+                    <input type="file" name="image">
+                  </div>
+                  <!-- <div>
+                    <label for="profile_img">Profile Image:</label>
+                    <input type="file" name="image" id=""><button><i>change</i></button></input>
+                  </div> -->
+                </div>
+                <div>
+                  <label for="username">Username:</label>
+                  <input value="{{user_profile.username}}" name="username" type="text">
+                </div>
+                <div>
+                  <label for="first_name">First Name:</label>
+                  <input value="{{user_profile.first_name}}" name="first_name" type="text">
+                </div>
+                <div>
+                  <label for="last_name">Last Name:</label>
+                  <input value="{{user_profile.last_name}}" name="last_name" type="text">
+                </div>
+                <div>
+                  <label for="bio">Bio:</label>
+                  <textarea name="bio">{{user_profile.bio}}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="btn-space">
+              <button class="cancel-btn"><a href="/">Cancel</a></button>
+              <button type="submit" class="saving-btn">Save</button>
+            </div>
+            
+            <!-- <div>
+              <div class="form-img">
+                  <label for="">Profile Image:</label>
+                  <div class="profile-form">
+                    <img width="100" height="100" src="{{user_profile.profile_img.url}}" alt="Your Profile Image" style="background-color: grey; border-radius: 10px;">
+                    <input type="file" name="image" value="" class="shadow-none bg-gray-100">
+                  </div>
+              </div> 
+              <div class="col-span-2">
+                <label for="username">Username:</label> 
+                <input type="text" name="username" value="{{user_profile.username}}" class="shadow-none bg-gray-100"> 
+              </div>                      
+              <div>
+                  <label for=""> First name:</label>
+                  <input type="text" name="first_name" value="{{user_profile.first_name}}" class="shadow-none bg-gray-100">
+              </div>
+              <div>
+                <label for=""> Last name:</label>
+                <input type="text" name="last_name" value="{{user_profile.last_name}}" class="shadow-none bg-gray-100">
+              </div>
+              <div class="col-span-2">
+                  <label for="bio">Bio:</label>  
+                  <textarea id="bio" name="bio" rows="3"  class="shadow-none bg-gray-100" style="border: 1px solid black; resize: none; padding: 10px;">{{user_profile.bio}}</textarea>
+              </div> 
+            </div> 
+
+            <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+              <button class="p-2 px-4 rounded bg-gray-50 text-red-500"><a href="/"> Cancel </a></button>
+              <button type="submit" class="button bg-blue-700"> Save </button>
+            </div>  -->
+          </form>
+        </div>
+      </div>
+      <div class="low-nav">
+        <ul>
+          <li>
+            <a href="{% url 'index' %}">
+              <button>
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 42q-1.25 0-2.125-.875T8 39V19.5q0-.7.325-1.35.325-.65.875-1.05l13-9.75q.4-.3.85-.45.45-.15.95-.15.5 0 .95.15.45.15.85.45l13 9.75q.55.4.875 1.05.325.65.325 1.35V39q0 1.25-.875 2.125T37 42h-9V28h-8v14Z"/>
+                </svg>
+                Home
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'lobby' %}">
+              <button>
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.6 13.4q0-2.25 1.575-3.825Q10.75 8 13 8h22q2.25 0 3.825 1.575Q40.4 11.15 40.4 13.4v4.15q2.4-.25 4 1.05t1.6 3.75V34.6q0 2.25-1.575 3.825Q42.85 40 40.6 40H7.4q-2.25 0-3.825-1.575Q2 36.85 2 34.6V22.35q0-2.45 1.625-3.75Q5.25 17.3 7.6 17.55Zm3 0V19q.7.7 1.1 1.375.4.675.4 1.975v6.2h23.8v-6.2q0-1.3.4-1.975T37.4 19v-5.6q0-1.05-.675-1.725T35 11H13q-1.05 0-1.725.675T10.6 13.4Zm28.3 18.15H9.1v-9.2q0-.5-.125-.875t-.4-.65q-.275-.275-.65-.4T7.05 20.3q-1 0-1.525.525Q5 21.35 5 22.35V34.6q0 1.05.675 1.725T7.4 37h33.2q1.05 0 1.725-.675T43 34.6V22.35q0-1-.525-1.525-.525-.525-1.525-.525-.5 0-.875.125t-.625.4q-.25.275-.4.65-.15.375-.15.875Zm-14.9 0ZM24 37Zm0-8.45Z"/>
+                </svg>
+                Lobby
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <button class="add-btn">
+                <div class="icon-add">
+                  <div class="add"></div>
+                </div>
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'settings' user_profile.username %}">
+              <button class="active">
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 23.75q-3.3 0-5.4-2.1-2.1-2.1-2.1-5.4 0-3.3 2.1-5.4 2.1-2.1 5.4-2.1 3.3 0 5.4 2.1 2.1 2.1 2.1 5.4 0 3.3-2.1 5.4-2.1 2.1-5.4 2.1ZM5.5 39.8q-.65 0-1.075-.425Q4 38.95 4 38.3v-3.2q0-1.75.875-3.15T7.4 29.8q3.6-1.6 6.675-2.3 3.075-.7 5.925-.7h1.15q-.35.7-.625 1.6-.275.9-.475 1.85-.25 1.35-.175 3.225.075 1.875.525 3.325.25.9.625 1.625T21.9 39.8Zm29.2-3.85q1.8 0 2.9-1.1 1.1-1.1 1.1-2.9 0-1.8-1.1-2.9-1.1-1.1-2.9-1.1-1.8 0-2.9 1.1-1.1 1.1-1.1 2.9 0 1.8 1.1 2.9 1.1 1.1 2.9 1.1Zm-1.85 2.75q-.85-.25-1.725-.725-.875-.475-1.475-1.075l-2.2.5q-.25.1-.5 0t-.35-.35l-.65-1.15q-.15-.2-.1-.45.05-.25.25-.45l1.9-1.8q-.1-.45-.1-1.25t.1-1.25l-1.9-1.8q-.2-.2-.25-.45-.05-.25.1-.45l.65-1.15q.1-.25.35-.35.25-.1.5 0l2.2.5q.6-.6 1.475-1.075.875-.475 1.725-.725l.4-2.65q.05-.3.25-.475t.5-.175h1.4q.3 0 .5.175t.25.475l.4 2.65q.85.25 1.725.725.875.475 1.475 1.075l2.2-.5q.25-.1.5 0t.35.35l.65 1.15q.15.2.1.45-.05.25-.25.45l-1.9 1.8q.1.45.1 1.25t-.1 1.25l1.9 1.8q.2.2.25.45.05.25-.1.45l-.65 1.15q-.1.25-.35.35-.25.1-.5 0l-2.2-.5q-.6.6-1.475 1.075-.875.475-1.725.725l-.4 2.65q-.05.3-.25.475t-.5.175H34q-.3 0-.5-.175t-.25-.475Z"/>
+                </svg>
+                Settings
+              </button>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'profile' user_profile.username %}">
+              <button>
+                <svg viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.1 35.25q3.15-2 6.225-3.025Q20.4 31.2 24 31.2q3.6 0 6.7 1.025t6.25 3.025q2.2-2.7 3.125-5.45Q41 27.05 41 24q0-7.25-4.875-12.125T24 7q-7.25 0-12.125 4.875T7 24q0 3.05.95 5.8t3.15 5.45ZM24 25.5q-2.9 0-4.875-1.975T17.15 18.65q0-2.9 1.975-4.875T24 11.8q2.9 0 4.875 1.975t1.975 4.875q0 2.9-1.975 4.875T24 25.5ZM24 44q-4.2 0-7.85-1.575-3.65-1.575-6.35-4.3Q7.1 35.4 5.55 31.75 4 28.1 4 23.95q0-4.1 1.575-7.75 1.575-3.65 4.3-6.35 2.725-2.7 6.375-4.275Q19.9 4 24.05 4q4.1 0 7.75 1.575 3.65 1.575 6.35 4.275 2.7 2.7 4.275 6.35Q44 19.85 44 24q0 4.1-1.575 7.75-1.575 3.65-4.275 6.375t-6.35 4.3Q28.15 44 24 44Z"/>
+                </svg>
+                Profile
+              </button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
