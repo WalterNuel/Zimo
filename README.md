@@ -44,6 +44,13 @@ Zimo was a project inspired by twitter, I developed it using HTML, CSS, Django, 
 3. Still working on this from time to time so I might update every once in a while
 
 
+## Video Demo
+
+[![Zimo Demo Video](https://img.youtube.com/vi/fm7WAWqhJV8/0.jpg)](https://youtu.be/fm7WAWqhJV8)
+
+Click on the image above to watch the Zimo demo video.
+
+
 ## Contributing
 If you would like to contribute to this project, you can follow these steps:
 1. Fork the repository.
