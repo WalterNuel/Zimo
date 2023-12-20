@@ -19,7 +19,7 @@ Zimo was a project inspired by twitter, I developed it using HTML, CSS, Django, 
 
 ## Installation
 1. Clone the repository.
-```git clone https://github.com/your-username/zimo.git```
+```git clone https://github.com/WalterNuel/Zimo.git```
 2. Change to the project directory.
 ```cd zimo```
 3. Install the required dependencies. (If you do not hve Django make sure to install the required Django and Python dependencies manually.)
